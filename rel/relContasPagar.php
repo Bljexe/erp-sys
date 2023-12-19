@@ -14,6 +14,7 @@ $status_like = '%' . $status . '%';
 
 $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
+$apuracao = 0;
 
 if ($status == 'Sim') {
 	$status_serv = 'Pagas';
@@ -374,7 +375,9 @@ if ($status == 'Sim') {
 
 			<hr>
 
-		<?php } ?>
+		<?php
+		}
+		?>
 
 		<small>
 			<div class="row">

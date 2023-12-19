@@ -1,35 +1,32 @@
 <?php
 
-require_once("../conexao.php"); 
+require_once("../conexao.php");
 
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
-$data_hoje = utf8_encode((new DateTime('today'))->format('l, d \d\e F \d\e Y'));
-$formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
-$data_hoje = $formatter->format(new DateTime('today'));
+$data_hoje = (new DateTime('today'))->format('l, d \d\e F \d\e Y');
 
 $dataInicial = $_GET['dataInicial'];
 $dataFinal = $_GET['dataFinal'];
 $status = $_GET['status'];
 
-$status_like = '%'.$status.'%';
+$status_like = '%' . $status . '%';
 
 $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
 
-if($status == 'Entrada'){
+if ($status == 'Entrada') {
 	$status_serv = 'de Entrada ';
-}else if($status == 'Saída'){
+} else if ($status == 'Saída') {
 	$status_serv = 'de Saída';
-
-}else{
+} else {
 	$status_serv = '';
 }
 
 
-if($dataInicial != $dataFinal){
-	$apuracao = $dataInicialF. ' à '. $dataFinalF;
-}else{
+if ($dataInicial != $dataFinal) {
+	$apuracao = $dataInicialF . ' à ' . $dataFinalF;
+} else {
 	$apuracao = $dataInicialF;
 }
 
@@ -37,201 +34,200 @@ if($dataInicial != $dataFinal){
 
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Relatório de Movimentações</title>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<style>
-
 		@page {
 			margin: 0px;
 
 		}
 
 		.footer {
-			margin-top:20px;
-			width:100%;
+			margin-top: 20px;
+			width: 100%;
 			background-color: #ebebeb;
-			padding:10px;
-			position:absolute;
-			bottom:0;
+			padding: 10px;
+			position: absolute;
+			bottom: 0;
 		}
 
-		.cabecalho-topo {    
+		.cabecalho-topo {
 			background-color: #ebebeb;
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			height:100px;
+			padding: 10px;
+			margin-bottom: 30px;
+			width: 100%;
+			height: 100px;
 		}
 
-		.cabecalho {    
-			padding:10px;
-			margin-bottom:30px;
-			width:100%;
-			font-family:Times, "Times New Roman", Georgia, serif;
+		.cabecalho {
+			padding: 10px;
+			margin-bottom: 30px;
+			width: 100%;
+			font-family: Times, "Times New Roman", Georgia, serif;
 		}
 
-		.titulo{
-			margin:0;
-			font-size:28px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+		.titulo {
+			margin: 0;
+			font-size: 28px;
+			font-family: Arial, Helvetica, sans-serif;
+			color: #6e6d6d;
 
 		}
 
-		.subtitulo{
-			margin:0;
-			font-size:12px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+		.subtitulo {
+			margin: 0;
+			font-size: 12px;
+			font-family: Arial, Helvetica, sans-serif;
+			color: #6e6d6d;
 		}
 
-		.areaTotais{
-			border : 0.5px solid #bcbcbc;
+		.areaTotais {
+			border: 0.5px solid #bcbcbc;
 			padding: 15px;
 			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
-			position:absolute;
-			right:20;
+			margin-right: 25px;
+			margin-left: 25px;
+			position: absolute;
+			right: 20;
 		}
 
-		.areaTotal{
-			border : 0.5px solid #bcbcbc;
+		.areaTotal {
+			border: 0.5px solid #bcbcbc;
 			padding: 15px;
 			border-radius: 5px;
-			margin-right:25px;
-			margin-left:25px;
+			margin-right: 25px;
+			margin-left: 25px;
 			background-color: #f9f9f9;
-			margin-top:2px;
+			margin-top: 2px;
 		}
 
-		.pgto{
-			margin:1px;
+		.pgto {
+			margin: 1px;
 		}
 
-		.fonte13{
-			font-size:13px;
+		.fonte13 {
+			font-size: 13px;
 		}
 
-		.esquerda{
-			display:inline;
-			width:50%;
-			float:left;
+		.esquerda {
+			display: inline;
+			width: 50%;
+			float: left;
 		}
 
-		.direita{
-			display:inline;
-			width:50%;
-			float:right;
+		.direita {
+			display: inline;
+			width: 50%;
+			float: right;
 		}
 
-		.table{
-			padding:15px;
-			font-family:Verdana, sans-serif;
-			margin-top:20px;
+		.table {
+			padding: 15px;
+			font-family: Verdana, sans-serif;
+			margin-top: 20px;
 		}
 
-		.texto-tabela{
-			font-size:12px;
-		}
-
-
-		.esquerda_float{
-
-			margin-bottom:10px;
-			float:left;
-			display:inline;
+		.texto-tabela {
+			font-size: 12px;
 		}
 
 
-		.titulos{
-			margin-top:10px;
+		.esquerda_float {
+
+			margin-bottom: 10px;
+			float: left;
+			display: inline;
 		}
 
-		.image{
-			margin-top:-10px;
+
+		.titulos {
+			margin-top: 10px;
 		}
 
-		.margem-direita{
+		.image {
+			margin-top: -10px;
+		}
+
+		.margem-direita {
 			margin-right: 80px;
 		}
 
-		.margem-direita50{
+		.margem-direita50 {
 			margin-right: 50px;
 		}
 
-		hr{
-			margin:8px;
-			padding:1px;
+		hr {
+			margin: 8px;
+			padding: 1px;
 		}
 
 
-		.titulorel{
-			margin:0;
-			font-size:25px;
-			font-family:Arial, Helvetica, sans-serif;
-			color:#6e6d6d;
+		.titulorel {
+			margin: 0;
+			font-size: 25px;
+			font-family: Arial, Helvetica, sans-serif;
+			color: #6e6d6d;
 
 		}
 
-		.margem-superior{
-			margin-top:30px;
+		.margem-superior {
+			margin-top: 30px;
 		}
 
-		.areaSubtituloCab{
-			margin-top:15px;
-			margin-bottom:15px;
+		.areaSubtituloCab {
+			margin-top: 15px;
+			margin-bottom: 15px;
 		}
 
 
-		.area-cab{
-			
-			display:block;
-			width:100%;
-			height:10px;
+		.area-cab {
+
+			display: block;
+			width: 100%;
+			height: 10px;
 
 		}
 
-		
-		.coluna{
+
+		.coluna {
 			margin: 0px;
-			float:left;
-			height:30px;
+			float: left;
+			height: 30px;
 		}
 
-		.area-tab{
-			
-			display:block;
-			width:100%;
-			height:30px;
+		.area-tab {
+
+			display: block;
+			width: 100%;
+			height: 30px;
 
 		}
-
 	</style>
 
 </head>
 
 <body>
 
-	<?php if($cabecalho_img_rel == 'SIM'){ ?>
+	<?php if ($cabecalho_img_rel == 'SIM') { ?>
 
 		<div class="img-cabecalho my-4">
 			<img src="<?php echo ROOT_URL ?>img/topo-relatorio.jpg" width="100%">
 		</div>
 
-	<?php }else{ ?>
+	<?php } else { ?>
 
 		<!-- CABEÇALHO EM HTML -->
-		
+
 	<?php } ?>
 
 	<div class="container">
 
-		
-		<div align="center" class="">	
+
+		<div align="center" class="">
 			<span class="titulorel">Relatório de Movimentações <?php echo $status_serv  ?> </span>
 		</div>
 		<hr>
@@ -253,7 +249,7 @@ if($dataInicial != $dataFinal){
 				<div class="cabecalho mb-1" style="border-bottom: solid 1px #e3e3e3;">
 				</div>
 
-				<?php 
+				<?php
 
 				$entradas = 0;
 				$saidas = 0;
@@ -262,13 +258,13 @@ if($dataInicial != $dataFinal){
 				$entradasF = 0;
 				$saidasF = 0;
 				$saldoF = 0;
-				
+
 
 				$query = $pdo->query("SELECT * FROM movimentacoes where data >= '$dataInicial' and data <= '$dataFinal' and tipo LIKE '$status_like' order by id desc");
 				$res = $query->fetchAll(PDO::FETCH_ASSOC);
 				$totalItens = @count($res);
 
-				for ($i=0; $i < @count($res); $i++) { 
+				for ($i = 0; $i < @count($res); $i++) {
 					foreach ($res[$i] as $key => $value) {
 					}
 
@@ -277,17 +273,16 @@ if($dataInicial != $dataFinal){
 					$query_f = $pdo->query("SELECT * from usuarios where id = '$id_usu'");
 					$res_f = $query_f->fetchAll(PDO::FETCH_ASSOC);
 					$total_reg_f = @count($res_f);
-					if($total_reg_f > 0){ 
+					if ($total_reg_f > 0) {
 						$nome_usuario = $res_f[0]['nome'];
-
 					}
 
 
-					if($res[$i]['tipo'] == 'Entrada'){
+					if ($res[$i]['tipo'] == 'Entrada') {
 						$classe_tipo = 'text-success';
 						$tipo = 'Entrada';
 						$entradas += $res[$i]['valor'];
-					}else{
+					} else {
 						$classe_tipo = 'text-danger';
 						$tipo = 'Saída';
 						$saidas += $res[$i]['valor'];
@@ -301,20 +296,22 @@ if($dataInicial != $dataFinal){
 					$saidasF = number_format($saidas, 2, ',', '.');
 					$saldoF = number_format($saldo, 2, ',', '.');
 
-					if($saldo < 0){
+					if ($saldo < 0) {
 						$classeSaldo = 'text-danger';
-					}else{
+					} else {
 						$classeSaldo = 'text-success';
 					}
 
-					?>
+				?>
 
-					<section class="area-tab" style="padding-top:5px">	
+					<section class="area-tab" style="padding-top:5px">
 
-						<div class="linha-cab">				
-							<div class="coluna text-uppercase" style="width:15%; font-weight: bold"><p class="<?php echo $classe_tipo ?>"><?php echo $tipo ?></p></div>
+						<div class="linha-cab">
+							<div class="coluna text-uppercase" style="width:15%; font-weight: bold">
+								<p class="<?php echo $classe_tipo ?>"><?php echo $tipo ?></p>
+							</div>
 							<div class="coluna text-uppercase" style="width:30%"><?php echo $res[$i]['descricao'] ?></div>
-							<div class="coluna" style="width:10%; text-align: center;">R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.'); ?></div>				
+							<div class="coluna" style="width:10%; text-align: center;">R$ <?php echo number_format($res[$i]['valor'], 2, ',', '.'); ?></div>
 							<div class="coluna" style="width:30%; text-align: center;"><?php echo $nome_usuario ?></div>
 							<div class="coluna" style="width:15%; text-align: center;"><?php echo implode('/', array_reverse(explode('-', $res[$i]['data']))); ?></div>
 						</div>
@@ -338,30 +335,30 @@ if($dataInicial != $dataFinal){
 
 		<small>
 			<div class="row">
-				<div class="col-sm-8 esquerda">	
+				<div class="col-sm-8 esquerda">
 					<span class=""> <b> Entradas: </b> <span class="text-success">R$ <?php echo $entradasF ?></span> </span>
 
 					<span class=""> <b> Saídas: </b> <span class="text-danger">R$ <?php echo $saidasF ?></span> </span>
 				</div>
-				<div class="col-sm-4 direita" align="right">	
-					<span class=""> <b> Saldo Total: </b><span class="<?php echo $classeSaldo ?>"> R$ <?php echo $saldoF ?></span>  </span>
+				<div class="col-sm-4 direita" align="right">
+					<span class=""> <b> Saldo Total: </b><span class="<?php echo $classeSaldo ?>"> R$ <?php echo $saldoF ?></span> </span>
 				</div>
 			</div>
 		</small>
 
 
 		<hr>
-		
-		
+
+
 		<small>
 			<div class="row">
-				<div class="col-sm-6 esquerda">	
+				<div class="col-sm-6 esquerda">
 					<span class=""> <b> Período da Apuração: </b> </span>
 
 					<span class=""> <?php echo $apuracao ?> </span>
 				</div>
-				<div class="col-sm-6 direita" align="right">	
-					<span class=""><b>Gerado: </b>  <?php echo $data_hoje ?></span>
+				<div class="col-sm-6 direita" align="right">
+					<span class=""><b>Gerado: </b> <?php echo $data_hoje ?></span>
 				</div>
 			</div>
 		</small>
@@ -370,8 +367,9 @@ if($dataInicial != $dataFinal){
 	</div>
 
 	<div class="footer">
-		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p> 
+		<p style="font-size:14px" align="center"><?php echo $rodape_relatorios ?></p>
 	</div>
 
 </body>
+
 </html>
