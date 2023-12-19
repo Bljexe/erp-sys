@@ -302,7 +302,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `cpf`, `telefone`, `email`, `login`, `senha`, `nivel`, `foto`) VALUES
-(1, 'Usuário Root', '000.000.000-00', '(00) 00000-0000', 'root@sistema.com', 'root', '123', 'Administrador', 'sem-foto.jpg'),
+(1, 'Usuário Root', '000.000.000-00', '(00) 00000-0000', 'root@sistema.com', 'root', '123', 'Administrador', 'sem-foto.jpg');
 
 -- --------------------------------------------------------
 
