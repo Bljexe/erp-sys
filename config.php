@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 // VARIÁVEIS PARA CONEXÃO COM O BANCO DE DADOS LOCAL
 $servidor = 'localhost';
+$porta = '3306';
 $usuario = 'root';
 $senha = '';
 $banco = 'sistema';
