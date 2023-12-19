@@ -14,7 +14,6 @@ $status_like = '%' . $status . '%';
 
 $dataInicialF = implode('/', array_reverse(explode('-', $dataInicial)));
 $dataFinalF = implode('/', array_reverse(explode('-', $dataFinal)));
-$apuracao = 0;
 
 if ($status == 'Sim') {
 	$status_serv = 'Pagas';
@@ -22,6 +21,11 @@ if ($status == 'Sim') {
 	$status_serv = 'Pendentes';
 } else {
 	$status_serv = '';
+}
+if ($dataInicial != $dataFinal) {
+	$apuracao = $dataInicialF . ' à ' . $dataFinalF;
+} else {
+	$apuracao = $dataInicialF;
 }
 ?>
 
