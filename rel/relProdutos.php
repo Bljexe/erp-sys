@@ -4,7 +4,7 @@ require_once("../conexao.php");
 
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
-$data_hoje = utf8_encode((new DateTime('today'))->format('l, d \d\e F \d\e Y'));
+$data_hoje = (new DateTime('today'))->format('l, d \d\e F \d\e Y');
 $formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
 $data_hoje = $formatter->format(new DateTime('today'));
 
@@ -262,7 +262,7 @@ $data_hoje = $formatter->format(new DateTime('today'));
 							<div class="coluna text-uppercase" style="width:30%"><?php echo $nome ?> </div>
 							<div class="coluna text-uppercase" style="width:30%"><?php echo $descricao ?></div>
 							<div class="coluna" style="width:10%; text-align: center;"><?php echo $estoque ?></div>
-							
+
 							<div class="coluna" style="width:15%; text-align: center;">R$ <?php echo $valor_venda ?></div>
 						</div>
 					</section>
@@ -298,7 +298,7 @@ $data_hoje = $formatter->format(new DateTime('today'));
 		<small>
 			<div class="row">
 				<div class="col-sm-6 direita" align="right">
-					<span class=""> <b> Gerado : <?php echo $data_hoje ?>  </b>  </span>
+					<span class=""> <b> Gerado : <?php echo $data_hoje ?> </b> </span>
 				</div>
 			</div>
 		</small>
