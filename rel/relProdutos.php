@@ -5,8 +5,6 @@ require_once("../conexao.php");
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 date_default_timezone_set('America/Sao_Paulo');
 $data_hoje = (new DateTime('today'))->format('l, d \d\e F \d\e Y');
-$formatter = new IntlDateFormatter('pt_BR', IntlDateFormatter::FULL, IntlDateFormatter::NONE);
-$data_hoje = $formatter->format(new DateTime('today'));
 
 ?>
 
